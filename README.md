@@ -23,12 +23,12 @@ O API Gateway intercepta todas as chamadas recebidas na porta `80` e realiza o p
                                 +---------+---------+
                                           |
         +------------------+--------------+--------------+------------------+
-        | /                | /identidade  | /clinico     | /agendamentos    | /faturamento
+        | /                | /api/v1/**   | /api/v1/**   | /api/v1/**       |
         v                  v              v              v                  v
-+---------------+  +---------------+  +---------------+  +---------------+  +---------------+
-| Interface Web |  | Serv. Ident.  |  | Serv. Clínico |  | Serv. Agend.  |  | Serv. Fatur.  |
-| (Frontend)    |  | (Porta 8080)  |  | (Porta 8080)  |  | (Porta 8080)  |  | (Porta 8080)  |
-+---------------+  +---------------+  +---------------+  +---------------+  +---------------+
++---------------+  +---------------+  +---------------+  +---------------+
+| Interface Web |  | Serv. Ident.  |  | Serv. Clínico |  | Serv. Agend.  |
+| (Frontend)    |  | (Porta 8080)  |  | (Porta 8080)  |  | (Porta 8080)  |
++---------------+  +---------------+  +---------------+  +---------------+
 ```
 
 ### Tabela de Mapeamento de Rotas
@@ -36,10 +36,12 @@ O API Gateway intercepta todas as chamadas recebidas na porta `80` e realiza o p
 | Prefixo da URL | Serviço de Destino | Descrição |
 |---|---|---|
 | `/` | `interface-web` | Interface de usuário (HTML, CSS e JavaScript). |
-| `/identidade/` | `servico-identidade` | Autenticação, usuários, perfis, tutores e animais. |
-| `/clinico/` | `servico-clinico` | Prontuários, exames, atendimentos e prescrições. |
-| `/agendamentos/` | `servico-agendamento` | Agendas, disponibilidade e check-in. |
-| `/faturamento/` | `servico-faturamento` | Cobranças, faturas e pagamentos. |
+| `/api/v1/auth`, `/api/v1/tutores`, `/api/v1/admin`, `/api/v1/recepcionista`, `/api/v1/veterinario` | `servico-identidade` | Autenticação, usuários, perfis, tutores e animais. |
+| `/api/v1/atendimentos`, `/api/v1/medicamentos`, `/api/v1/catalogo-itens` | `servico-clinico` | Prontuários, exames, atendimentos e prescrições. |
+| `/api/v1/agendamentos`, `/api/v1/disponibilidades` | `servico-agendamento` | Agendas, disponibilidade e check-in. |
+| `/api/actuator/health` | `servico-agendamento` | Health check usado pelo frontend. |
+
+> O `servico-faturamento` ainda não está integrado (esqueleto sem Dockerfile/domínio). Quando estiver pronto, adicione os prefixos dele no `nginx.conf` e no `docker-compose.yml`.
 
 ## Estrutura do Repositório
 
